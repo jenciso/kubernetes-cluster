@@ -1,9 +1,8 @@
 # Kubernetes-Cluster
 
-![kubernetes-logo](https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png)
+<img src="https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png" width="150">
 
-
-This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
+This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) 😐
 
 ## Requirements 
 

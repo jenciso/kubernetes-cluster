@@ -1,14 +1,13 @@
 # Kubernetes-Cluster
 
-![kubernetes-logo](https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png)
+<img src="https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png" width="150">
 
-
-This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
+This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) 😐
 
 ## Requirements 
 
 * Centos 7 OS
-* 1 ansible host
+* 1 ansible provisioner
 * 2 servers for Load Balancer 
 * 3 servers for API Server (could be 2)
 * 3 servers for etcd 
@@ -20,19 +19,20 @@ This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhig
 - Etcd cluster separated of the kube-apiserver for best practices in HA. 
 - Kube-Api HA
 - Automatic node register using bootstrap option
-- Simple network configuration, I use only routes, whitout use any network plugin like calico or flannel 
+- Simple network configuration, it only use routes, whitout any type network plugin like calico or flannel 
 - RBAC Authentication
+- All the ssl keys and token will be created into master[0] server defined
 
 ## Installation
 
-First, you have to create the dns domain for your apiserver. It is defined in group_vars/all/main.yml (like api_domain)
+First you have to create the dns domain for your api-server. It is defined in group_vars/all/main.yml as `api_domain`
 
 Ex.
 ```yaml
 api_domain: apik8s-lab.iplanet.work
 ```
 
-Run the command for install
+Run the following command for install
 
 ```sh
 sudo ansible-playbook site.yml -i inventory-lab \
@@ -57,7 +57,8 @@ wget https://storage.googleapis.com/kubernetes-release/release/v1.7.5/bin/linux/
 
 * Download certificates created in rol "create-keys". it is located into master[0]
 
-Ex. copy using sz (if you don't have sz, try install it: yum -y install lrzsz) 
+Ex. copy using sz (if you don't have sz, try install it: `yum -y install lrzsz`) 
+
 ```sh
 cd /opt/kubernetes-config/ssl
 sz admin-key.pem
@@ -90,7 +91,7 @@ kubectl config set-context k8s-lab \
 kubectl config use-context k8s-lab
 ```
 
-## Testing
+## Testing cluster
 
 ```sh
 [root@dcbvm090dv921 ~]# kubectl version
@@ -113,23 +114,26 @@ kube-system   kube-dns-2700442311-g9dmt   3/3       Running   0          3m     
 
 ```
 
-## Uninstall - Clean All
+## Uninstall - Clean all
 
 ```sh
-MASTER
+# MASTER
 sudo ansible -m shell -a "systemctl stop kube-apiserver kube-controller-manager kube-scheduler" -i inventory-lab master
 
-ETCD
+# ETCD
 sudo ansible -m shell -a "systemctl stop etcd" -i inventory-lab etcd
 sudo ansible -m shell -a 'rm -rf /var/lib/etcd/*' -i inventory-lab etcd 
-
-NODE
+ 
+# NODE
 sudo ansible -m shell -a "systemctl stop kubelet kube-proxy docker" -i inventory-lab node
 
-MASTER/NODE
+# MASTER/NODE
 sudo ansible -m shell -a "rm -f /etc/sysconfig/network-scripts/route-eth0" -i inventory-lab master,node
 sudo ansible -m shell -a 'rm -rf /var/lib/kubernetes' -i inventory-lab master,node
 sudo ansible -m shell -a 'rm -rf /opt/kubernetes-config' -i inventory-lab master
 sudo ansible -m shell -a 'rm -rf /var/lib/kubelet /var/lib/kube-proxy' -i inventory-lab node
 ```
 
+Feel your free to give any suggestions.
+
+Thanks!

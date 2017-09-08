@@ -1,0 +1,105 @@
+---
+- name: kubernetes | General roles
+  hosts: all
+  remote_user: ansible
+  environment: "{{ proxy_env }}"
+  roles:
+    - common
+    - firewalld
+    - ntp-client
+  tags:
+    - k8s-common
+  
+
+
+- name: Kubernetes | Generate SSL certificates, token and kubeconfig
+  hosts: master[0]
+  remote_user: ansible
+  environment: "{{ proxy_env }}"
+  roles:
+    - create-keys
+  tags:
+    - k8s-create-keys
+
+
+- name: kubernetes | Distribuite SSL certificates, token and kubeconfig
+  hosts: [ master, etcd, node ]
+  remote_user: ansible
+  environment: "{{ proxy_env }}"
+  roles:
+    - dist-keys
+  tags:
+    - k8s-dist-keys
+
+
+- name: Kubernetes | Etcd
+  hosts: etcd
+  remote_user: ansible
+  environment: "{{ proxy_env }}"
+  roles:
+    - etcd
+  tags:
+    - k8s-etcd
+
+
+
+- name: Kubernetes | Master
+  hosts: master
+  remote_user: ansible
+  environment: "{{ proxy_env }}"
+  roles:
+    - master
+  tags:
+    - k8s-master
+
+
+
+- name: kubernetes | Load Balancer
+  hosts: lb
+  remote_user: ansible
+  environment: "{{ proxy_env }}"
+  roles:
+    - keepalived
+    - nginx
+  tags:
+    - k8s-lb
+
+
+- name: kubernetes | Create Rolebinding in Cluster
+  hosts: master[0]
+  remote_user: ansible
+  environment: "{{ proxy_env }}"
+  roles:
+    - clusterrole
+  tags:
+    - k8s-clusterrole
+
+
+- name: kubernetes | Node
+  hosts: node
+  remote_user: ansible
+  environment: "{{ proxy_env }}"
+  roles:
+    - node
+  tags:
+    - k8s-node
+
+
+- name: kubernetes | Network
+  hosts: [ master, node ]
+  remote_user: ansible
+  environment: "{{ proxy_env }}"
+  roles:
+    - network
+  tags:
+    - k8s-network
+
+
+- name: kubernetes | Addons
+  hosts: master[0]
+  remote_user: ansible
+  environment: "{{ proxy_env }}"
+  roles:
+    - addons
+  tags:
+    - k8s-addons

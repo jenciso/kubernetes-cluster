@@ -1,0 +1,13 @@
+---
+- name: node | start kubelet.service
+  systemd:
+    name: kubelet.service
+    state: started
+    enabled: yes
+
+
+- name: node | start kube-proxy.service
+  systemd:
+    name: kube-proxy.service
+    state: started
+    enabled: yes

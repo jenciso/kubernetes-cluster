@@ -1,0 +1,32 @@
+---
+- name: ssl_dist | Create dir in master
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /var/lib/kubernetes
+  when: 
+    - "'master' in group_names"
+
+
+- name: ssl_dist | Create dir in node
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /var/lib/kubernetes
+    - /var/lib/kubelet
+    - /var/lib/kube-proxy
+    - /var/run/kubernetes
+  when: "'node' in group_names"
+
+
+- name: ssl_dist | Create dir in etcd
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /etc/etcd
+  when: "'etcd' in group_names"
+
+

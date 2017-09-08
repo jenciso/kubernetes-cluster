@@ -1,0 +1,7 @@
+---
+## FIREWALLD
+firewalld_disabled: False
+
+## SELINUX 
+selinux_enabled: false
+

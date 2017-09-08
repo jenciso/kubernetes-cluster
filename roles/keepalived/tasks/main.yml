@@ -1,0 +1,28 @@
+- name: keepalived | Install dependences 
+  yum: name=psmisc state=present
+  tags:
+    - keepalived
+
+- name: keepalived | Install packages
+  yum: name=keepalived state=present
+  tags:
+    - keepalived
+
+- name: keepalived | Set sysctl parameters
+  sysctl: name={{ item }} value=1 sysctl_set=yes state=present reload=yes
+  with_items:
+    - net.ipv4.ip_forward
+    - net.ipv4.ip_nonlocal_bind
+  tags:
+    - keepalived
+
+- name: Keepalived | Setup config file
+  template: src=keepalived.conf.j2 dest=/etc/keepalived/keepalived.conf
+  notify: restart keepalived
+  tags: 
+    - keepalived
+
+- name: keepalived | Start service
+  service: name=keepalived state=started enabled=yes
+  tags: 
+    - keepalived

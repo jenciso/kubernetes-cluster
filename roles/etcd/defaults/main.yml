@@ -1,0 +1,4 @@
+---
+deploy_etcd: false
+etcd_version: 3.2.7
+etcd_interface: "{{ ansible_default_ipv4.interface }}"

@@ -1,0 +1,28 @@
+{
+  "CN": "kube-node",
+  "hosts": [
+{% for host in groups['node'] %}
+    "{{ hostvars[host]['ansible_fqdn'] }}",
+{% endfor %}
+{% for host in groups['node'] %}
+    "system:node:{{ hostvars[host]['ansible_fqdn'] }}",
+{% endfor %}
+{% for host in groups['node'] %}
+    "{{ hostvars[host]['ansible_' + master_interface].ipv4.address }}",
+{% endfor %}
+    "kubernetes.default.svc.{{ cluster_name }}"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "BR",
+      "L": "POA",
+      "O": "system:nodes",
+      "OU": "Cluster",
+      "ST": "RS"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+---
+- name: master | install binaries kubernetes
+  include: install.yml
+
+
+- name: master | setup services
+  include: setup-service.yml
+
+
+- name: master | start services
+  include: start-service.yml
+
+- name: master | restart services
+  include: restart-service.yml
+  when: deploy_master

@@ -1,0 +1,26 @@
+---
+- name: master | setup kube-apiserver.service
+  template:
+    src: kube-apiserver.service
+    dest: /usr/lib/systemd/system/
+  notify: 
+    - reload systemd
+    - restart kube-apiserver
+
+
+- name: master | setup kube-controller-manager.service
+  template:
+    src: kube-controller-manager.service
+    dest: /usr/lib/systemd/system/
+  notify:  
+    - reload systemd
+    - restart kube-controller-manager
+
+
+- name: master | setup kube-scheduler.service
+  template:
+    src: kube-scheduler.service
+    dest: /usr/lib/systemd/system/
+  notify:
+    - reload systemd
+    - restart kube-scheduler

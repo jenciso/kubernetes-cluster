@@ -1,0 +1,3 @@
+---
+deploy_docker: false
+docker_version: 1.12.6

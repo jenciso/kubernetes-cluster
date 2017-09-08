@@ -1,0 +1,13 @@
+---
+- name: cfssl | Install 
+  include: ssl-cert__cfssl.yml
+  when: deploy_certificates
+  tags:
+    - cfssl-cert
+
+- name: cfssl | Make certs
+  include: ssl-cert__make_cert.yml
+  when: deploy_certificates
+  tags:
+    - cfssl-cert
+ 

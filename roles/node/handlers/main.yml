@@ -1,0 +1,12 @@
+---
+- name: reload systemd
+  command: systemctl --system daemon-reload
+
+- name: restart docker
+  systemd: name=docker state=restarted
+
+- name: restart kubelet
+  systemd: name=kubelet state=restarted
+
+- name: restart kube-proxy
+  systemd: name=kube-proxy state=restarted

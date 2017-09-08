@@ -1,0 +1,17 @@
+{
+  "CN": "system:kube-proxy",
+  "hosts": [],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "BR",
+      "L": "POA",
+      "O": "system:node-proxier",
+      "OU": "Cluster",
+      "ST": "RS"
+    }
+  ]
+}

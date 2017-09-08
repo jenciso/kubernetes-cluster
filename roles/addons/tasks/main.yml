@@ -1,0 +1,6 @@
+---
+- name: addons | dns
+  include: kube-dns.yml
+  when: deploy_addons
+  tags:
+    - kube-dns

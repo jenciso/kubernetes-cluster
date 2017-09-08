@@ -1,0 +1,15 @@
+---
+- name: cfssl | Download package cfssl
+  get_url:
+    url: https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+    dest: /usr/bin/cfssl
+    mode: 0755
+
+
+- name: cfssl | Download package cfssljson
+  get_url:
+    url: https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+    dest: /usr/bin/cfssljson
+    mode: 0755
+
+

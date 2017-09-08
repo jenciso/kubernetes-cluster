@@ -1,0 +1,26 @@
+---
+## KUBERNETES
+#-------------
+kubernetes_version: 1.7.5
+api_public_ip: "{{ lb_ip_apik8s }}"
+api_private_ip: 10.254.0.1
+cluster_dns: 10.254.0.10
+api_domain: apik8s-{{ env_site }}.iplanet.work
+cluster_name: iplanet.local
+cluster_cidr: 172.18.0.0/16
+k8s_config_dir: /opt/kubernetes-config
+ssl_dir: /opt/kubernetes-config/ssl
+
+## DEPLOY
+#---------- 
+# To init the installation all the vars deploy_*  should set to "true"
+#
+deploy_certificates: false
+deploy_token: false
+deploy_kubeconfig: false
+deploy_etcd: false
+deploy_cni: false
+deploy_node: false
+deploy_master: false
+deploy_docker: false
+deploy_addons: false

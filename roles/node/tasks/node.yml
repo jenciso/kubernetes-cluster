@@ -1,0 +1,21 @@
+---
+- name: node | install binaries
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-release/release/v{{ kubernetes_version }}/bin/linux/amd64/{{ item }}
+    dest: /usr/bin/
+    mode: 0755
+  with_items:
+    - kubectl
+    - kube-proxy
+    - kubelet
+  when: deploy_node
+
+
+- name: node | setup service
+  include: setup-service.yml
+
+
+- name: node | start service
+  include: start-service.yml
+
+

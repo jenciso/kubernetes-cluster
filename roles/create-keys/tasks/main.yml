@@ -1,0 +1,6 @@
+---
+- name: ssl-cert 
+  include: ssl-cert.yml
+
+- name: auth-config
+  include: auth-config.yml

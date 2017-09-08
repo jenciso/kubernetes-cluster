@@ -1,0 +1,43 @@
+---
+- name: fetch_ssl_certs | fetching ssl files 
+  fetch:
+    src: "{{ ssl_dir }}/{{ item }}"
+    dest: /tmp/
+    flat: yes
+  with_items:
+    - ca.pem 
+    - ca-key.pem
+    - kubernetes.pem
+    - kubernetes-key.pem 
+    - admin.pem
+    - admin-key.pem
+    - kube-proxy.pem
+    - kube-proxy-key.pem
+    - node-key.pem
+    - node.pem
+  delegate_to: "{{ groups['master'][0] }}"
+  run_once: true
+  when: deploy_certificates
+
+
+- name: fetch_token | Fetch token generated
+  fetch:
+    src: "{{ k8s_config_dir }}/token.csv"
+    dest: /tmp/
+    flat: yes
+  delegate_to: "{{ groups['master'][0] }}"
+  run_once: true
+  when: deploy_token
+
+
+- name: fetch_kubeconfig | Fetch config
+  fetch: 
+    src: "{{ k8s_config_dir }}/{{ item }}"
+    dest: /tmp/
+    flat: yes
+  with_items:
+    - bootstrap.kubeconfig
+    - kube-proxy.kubeconfig
+  delegate_to: "{{ groups['master'][0] }}"
+  run_once: true
+  when: deploy_kubeconfig

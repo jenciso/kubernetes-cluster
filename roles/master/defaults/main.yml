@@ -1,0 +1,4 @@
+---
+kubernetes_version: 1.7.0
+service_ip_range: 10.254.0.0/16
+cluster_cidr: 172.18.0.0/16

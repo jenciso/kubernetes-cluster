@@ -1,0 +1,7 @@
+---
+keepalived_auth_pass: qazwsxedc
+keepalived_shared_iface: eth0
+keepalived_check_process: nginx
+keepalived_priority: 101
+keepalived_backup_priority: 100
+keepalived_router_id: 95

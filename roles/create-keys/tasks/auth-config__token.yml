@@ -1,0 +1,10 @@
+---
+- name: auth-config | create token
+  shell: head -c 16 /dev/urandom | od -An -t x | tr -d ' '
+  register: token
+
+
+- name: auth-config | insert token in token.csv
+  shell: 'echo {{ token.stdout }},kubelet-bootstrap,10001,"system:kubelet-bootstrap" > {{ k8s_config_dir }}/token.csv'
+
+   

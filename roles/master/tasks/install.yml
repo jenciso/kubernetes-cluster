@@ -1,0 +1,22 @@
+---
+- name: master | install binaries
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-release/release/v{{ kubernetes_version }}/bin/linux/amd64/{{ item }}
+    dest: /usr/bin/
+    mode: 0755
+  with_items:
+    - kube-apiserver
+    - kube-controller-manager
+    - kube-scheduler
+    - kubectl
+  when: deploy_master
+
+
+- name: master | create dir
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /var/log/kubernetes
+    - /var/lib/kubernetes
+    - /var/run/kubernetes

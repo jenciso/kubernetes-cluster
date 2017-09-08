@@ -1,0 +1,30 @@
+---
+- name: kubeconfig | set-cluster
+  shell: >
+    kubectl config set-cluster kubernetes-cluster 
+    --certificate-authority={{ ssl_dir }}/ca.pem 
+    --embed-certs=true 
+    --server=https://{{ api_domain }} 
+    --kubeconfig={{ k8s_config_dir }}/bootstrap.kubeconfig
+
+
+- name: kubeconfig | set-credentials
+  shell: >
+    kubectl config set-credentials kubelet-bootstrap 
+    --token={{ token.stdout }}
+    --kubeconfig={{ k8s_config_dir }}/bootstrap.kubeconfig
+
+
+- name: kubeconfig | set-context
+  shell: >
+    kubectl config set-context default 
+    --cluster=kubernetes-cluster
+    --user=kubelet-bootstrap
+    --kubeconfig={{ k8s_config_dir }}/bootstrap.kubeconfig
+
+
+- name: kubeconfig | use-context
+  shell: >
+    kubectl config use-context default 
+    --kubeconfig={{ k8s_config_dir }}/bootstrap.kubeconfig   
+  

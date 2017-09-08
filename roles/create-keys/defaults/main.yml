@@ -1,0 +1,14 @@
+---
+## KUBE
+api_public_ip: 192.168.1.100
+api_private_ip: 10.254.0.1
+api_domain: apik8s.iplanet.work
+cluster_name: iplanet.local
+
+## MASTER
+master_interface: eth0
+
+## SSL
+ssl_dir: /opt/kubernetes-config/ssl
+deploy_certificates: false
+cert_expiry_time: 87600h

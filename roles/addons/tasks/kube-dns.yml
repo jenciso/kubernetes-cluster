@@ -1,0 +1,14 @@
+---
+- name: kube-dns | copy yaml
+  template:
+    src: "{{ item }}"
+    dest: /tmp/
+  with_items:
+    - kube-dns.yml
+
+
+- name: kube-dns | deploy DNS
+  shell: >
+    kubectl create -f /tmp/kube-dns.yml
+  ignore_errors: true
+

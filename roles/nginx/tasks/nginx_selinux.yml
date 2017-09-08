@@ -1,0 +1,26 @@
+---
+- name: Install tools
+  yum: pkg=policycoreutils-python state=installed
+  tags:
+    - nginx 
+    - nginx-selinux
+
+- name: Permissive httpd
+  selinux_permissive: name=httpd_t permissive=true
+  tags:
+  - nginx
+  - nginx-selinux 
+
+- name: Set SELinux booleans
+  seboolean:
+    name: '{{ item }}'
+    state: yes
+    persistent: yes
+  with_items:
+    - httpd_run_stickshift
+    - httpd_setrlimit
+    - nis_enabled
+  when: selinux_enabled
+  tags: 
+    - nginx
+    - nginx-selinux

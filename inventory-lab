@@ -1,0 +1,34 @@
+[KUBERNETES:children]
+lb
+master
+etcd
+node
+
+[lab:children]
+KUBERNETES
+
+[KUBERNETES:vars]
+env_site=lab
+lb_ip_apik8s=10.64.14.79
+lb_ip_platform=10.64.14.78
+lb_ip_services=10.64.14.77
+
+
+
+[lb]
+dcbvm090dv801.iplanet.work keepalived_role=MASTER keepalived_unicast_peer="{{ hostvars[groups['lb'][1]]['ansible_default_ipv4']['address'] }}"
+dcbvm090dv802.iplanet.work keepalived_role=BACKUP keepalived_unicast_peer="{{ hostvars[groups['lb'][0]]['ansible_default_ipv4']['address'] }}"
+
+[master]
+dcbvm090dv821.iplanet.work
+dcbvm090dv822.iplanet.work
+dcbvm090dv823.iplanet.work
+
+[etcd]
+dcbvm090dv831.iplanet.work
+dcbvm090dv832.iplanet.work
+dcbvm090dv833.iplanet.work
+
+[node]
+dcbvm090dv841.iplanet.work
+dcbvm090dv842.iplanet.work

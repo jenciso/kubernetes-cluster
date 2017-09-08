@@ -1,0 +1,20 @@
+---
+- name: master | start kube-apiserver.service
+  systemd:
+    name: kube-apiserver.service
+    state: started
+    enabled: yes
+
+
+- name: master | start kube-controller-manager.service
+  systemd:
+    name: kube-controller-manager.service
+    state: started
+    enabled: yes
+
+
+- name: master | setup kube-scheduler.service
+  systemd:
+    name: kube-scheduler.service
+    state: started
+    enabled: yes

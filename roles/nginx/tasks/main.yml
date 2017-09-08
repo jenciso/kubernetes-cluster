@@ -1,0 +1,73 @@
+---
+- name: nginx | Add repository nginx-more
+  yum_repository:
+    name: aeris
+    description: Aeris Packages for Enterprise Linux 7 - stable
+    baseurl: http://repo.aerisnetwork.com/stable/centos/7/$basearch
+    gpgcheck: no
+    enabled: yes
+  tags:
+    - nginx
+
+- name: nginx | Install package
+  yum: name=nginx-more-1.10.3 state=present enablerepo=aeris
+  tags:
+    - nginx
+
+- name: nginx | copy mime.types
+  copy: src={{ item }} dest=/etc/nginx/
+  with_items:
+    - mime.types
+  tags:
+    - nginx
+
+- name: nginx | copy nginx config files
+  template: src={{ item }} dest=/etc/nginx/{{ item }} owner=root mode=440
+  with_items:
+    - nginx.conf
+    - nginx_stream.conf
+    - nginx_http.conf
+  notify: restart nginx
+  tags:
+    - nginx
+
+- name: nginx | create conf.d dir
+  file: path=/etc/nginx/conf.d state=directory
+  tags:
+    - nginx
+
+- name: nginx | create a default.conf 
+  shell: touch default.conf
+  args:
+    chdir: /etc/nginx/conf.d
+    creates: /etc/nginx/conf.d/default.conf
+    warn: no
+  tags:
+    - nginx
+
+- name: Copy all SSL files
+  copy: src=dhparam.pem  dest=/etc/nginx/ssl/
+  notify: reload nginx
+  tags:
+    - nginx
+
+
+- name: nginx | copy kubernetes config files
+  template: src=conf.d/stream_kubernetes_.conf dest=/etc/nginx/conf.d/  owner=root mode=440
+  notify: restart nginx
+  tags:
+    - nginx
+
+- name: nginx | stream firewall rules 
+  firewalld: port=443/tcp permanent=true state=enabled zone=public immediate=yes
+  when: not firewalld_disabled
+  tags: 
+    - nginx
+
+- include: nginx_selinux.yml
+  when: selinux_enabled
+
+- name: nginx service state
+  service: name=nginx state=started enabled=yes
+  tags: 
+    - nginx

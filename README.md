@@ -29,13 +29,13 @@ First, you have to create the dns domain for your apiserver. It is defined in gr
 
 Ex.
 ```yaml
-api_domain: apik8s-lab01.iplanet.work
+api_domain: apik8s-lab.iplanet.work
 ```
 
 Run the command for install
 
 ```sh
-sudo ansible-playbook site.yml -i inventory-lab01 \
+sudo ansible-playbook site.yml -i inventory-lab \
 -e "deploy_certificates=true" \
 -e "deploy_token=true" \
 -e "deploy_kubeconfig=true" \
@@ -68,10 +68,10 @@ sz ca.pem
 * Setup kubeconfig for your desktop
 
 ```sh
-kubectl config set-cluster k8s-lab01 \
+kubectl config set-cluster k8s-lab \
   --certificate-authority=ca.pem \
   --embed-certs=true \
-  --server=https://apik8s-lab01.iplanet.work
+  --server=https://apik8s-lab.iplanet.work
 ```
 
 ```sh
@@ -81,13 +81,13 @@ kubectl config set-credentials admin \
 ```
 
 ```sh
-kubectl config set-context k8s-lab01 \
-  --cluster=k8s-lab01 \
+kubectl config set-context k8s-lab \
+  --cluster=k8s-lab \
   --user=admin
 ```
 
 ```sh
-kubectl config use-context k8s-lab01
+kubectl config use-context k8s-lab
 ```
 
 ## Testing
@@ -117,19 +117,19 @@ kube-system   kube-dns-2700442311-g9dmt   3/3       Running   0          3m     
 
 ```sh
 MASTER
-sudo ansible -m shell -a "systemctl stop kube-apiserver kube-controller-manager kube-scheduler" -i inventory-lab01 master
+sudo ansible -m shell -a "systemctl stop kube-apiserver kube-controller-manager kube-scheduler" -i inventory-lab master
 
 ETCD
-sudo ansible -m shell -a "systemctl stop etcd" -i inventory-lab01 etcd
-sudo ansible -m shell -a 'rm -rf /var/lib/etcd/*' -i inventory-lab01 etcd 
+sudo ansible -m shell -a "systemctl stop etcd" -i inventory-lab etcd
+sudo ansible -m shell -a 'rm -rf /var/lib/etcd/*' -i inventory-lab etcd 
 
 NODE
-sudo ansible -m shell -a "systemctl stop kubelet kube-proxy docker" -i inventory-lab01 node
+sudo ansible -m shell -a "systemctl stop kubelet kube-proxy docker" -i inventory-lab node
 
 MASTER/NODE
-sudo ansible -m shell -a "rm -f /etc/sysconfig/network-scripts/route-eth0" -i inventory-lab01 master,node
-sudo ansible -m shell -a 'rm -rf /var/lib/kubernetes' -i inventory-lab01 master,node
-sudo ansible -m shell -a 'rm -rf /opt/kubernetes-config' -i inventory-lab01 master
-sudo ansible -m shell -a 'rm -rf /var/lib/kubelet /var/lib/kube-proxy' -i inventory-lab01 node
+sudo ansible -m shell -a "rm -f /etc/sysconfig/network-scripts/route-eth0" -i inventory-lab master,node
+sudo ansible -m shell -a 'rm -rf /var/lib/kubernetes' -i inventory-lab master,node
+sudo ansible -m shell -a 'rm -rf /opt/kubernetes-config' -i inventory-lab master
+sudo ansible -m shell -a 'rm -rf /var/lib/kubelet /var/lib/kube-proxy' -i inventory-lab node
 ```
 

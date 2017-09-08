@@ -1,6 +1,6 @@
-# Kube-Cluster
+# Kubernetes-Cluster
 
-![kubernetes-logo](/uploads/00710f044a8f6575d2807dc9e7d68d6a/kubernetes-logo.png)
+![kubernetes-logo](https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png)
 
 
 This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way)

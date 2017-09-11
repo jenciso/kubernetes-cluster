@@ -5,34 +5,34 @@
   environment: "{{ proxy_env }}"
   roles:
     - common
+    - { role: unicred-init, when: verify_unicred_init }
     - firewalld
     - ntp-client
   tags:
     - k8s-common
   
 
-
-- name: Kubernetes | Generate SSL certificates, token and kubeconfig
-  hosts: master[0]
+- name: kubernetes | Create main certificates
+  hosts: main_host
   remote_user: ansible
   environment: "{{ proxy_env }}"
   roles:
-    - create-keys
+    - cert-create
   tags:
-    - k8s-create-keys
+    - k8s-cert-create
 
 
-- name: kubernetes | Distribuite SSL certificates, token and kubeconfig
-  hosts: [ master, etcd, node ]
+- name: kubernetes | Distribuite SSL certificates master, etcd
+  hosts: [ main_host, master, etcd, node ]
   remote_user: ansible
   environment: "{{ proxy_env }}"
   roles:
-    - dist-keys
+    - cert-dist
   tags:
-    - k8s-dist-keys
+    - k8s-cert-dist
 
 
-- name: Kubernetes | Etcd
+- name: Kubernetes | etcd
   hosts: etcd
   remote_user: ansible
   environment: "{{ proxy_env }}"
@@ -42,8 +42,7 @@
     - k8s-etcd
 
 
-
-- name: Kubernetes | Master
+- name: Kubernetes | master
   hosts: master
   remote_user: ansible
   environment: "{{ proxy_env }}"
@@ -51,7 +50,6 @@
     - master
   tags:
     - k8s-master
-
 
 
 - name: kubernetes | Load Balancer
@@ -65,21 +63,13 @@
     - k8s-lb
 
 
-- name: kubernetes | Create Rolebinding in Cluster
-  hosts: master[0]
-  remote_user: ansible
-  environment: "{{ proxy_env }}"
-  roles:
-    - clusterrole
-  tags:
-    - k8s-clusterrole
-
-
 - name: kubernetes | Node
   hosts: node
   remote_user: ansible
   environment: "{{ proxy_env }}"
   roles:
+    - cert-node
+    - kubeconfig
     - node
   tags:
     - k8s-node
@@ -96,7 +86,7 @@
 
 
 - name: kubernetes | Addons
-  hosts: master[0]
+  hosts: main_host
   remote_user: ansible
   environment: "{{ proxy_env }}"
   roles:

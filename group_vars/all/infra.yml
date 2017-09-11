@@ -1,23 +1,23 @@
 ---
 ## Unicred
-verify_unicred_init: False
+verify_unicred_init: false
 
 ## Proxy
 proxy_server: 192.168.0.20
 proxy_port: 8080
 proxy_url: http://{{ proxy_server }}:{{ proxy_port }}
-proxy_enabled: True
+proxy_enabled: true
 proxy_env:
-  http_proxy: "{{ proxy_url }}"
-  https_proxy: "{{ proxy_url }}"
-  no_proxy: "127.0.0.1, localhost"
+  http_proxy: "{{ proxy_url if proxy_enabled else '' }}"
+  https_proxy: "{{ proxy_url if proxy_enabled else '' }}"
+  no_proxy: "{{ '127.0.0.1, localhost' if proxy_enabled else '' }}"
 
 ## SELINUX
-selinux_enabled: True
+selinux_enabled: true
 selinux_mode: permissive
 
 ## Firewall Rules
-firewalld_disabled: True
+firewalld_disabled: true
 
 ## Interface
 master_interface: eth0

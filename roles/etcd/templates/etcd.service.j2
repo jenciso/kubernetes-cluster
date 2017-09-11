@@ -12,12 +12,12 @@ Documentation=https://github.com/coreos
 Type=notify
 ExecStart=/usr/bin/etcd \
   --name {{ ansible_hostname }} \
-  --cert-file=/etc/etcd/kubernetes.pem \
-  --key-file=/etc/etcd/kubernetes-key.pem \
-  --peer-cert-file=/etc/etcd/kubernetes.pem \
-  --peer-key-file=/etc/etcd/kubernetes-key.pem \
-  --trusted-ca-file=/etc/etcd/ca.pem \
-  --peer-trusted-ca-file=/etc/etcd/ca.pem \
+  --cert-file=/var/lib/kubernetes/kubernetes.pem \
+  --key-file=/var/lib/kubernetes/kubernetes-key.pem \
+  --peer-cert-file=/var/lib/kubernetes/kubernetes.pem \
+  --peer-key-file=/var/lib/kubernetes/kubernetes-key.pem \
+  --trusted-ca-file=/var/lib/kubernetes/ca.pem \
+  --peer-trusted-ca-file=/var/lib/kubernetes/ca.pem \
   --peer-client-cert-auth \
   --client-cert-auth \
   --initial-advertise-peer-urls https://{{ ansible_default_ipv4.address }}:2380 \

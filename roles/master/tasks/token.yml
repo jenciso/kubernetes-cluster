@@ -1,0 +1,7 @@
+---
+- name: master | token for kubelet-bootstrap
+  lineinfile:
+    path: /var/lib/kubernetes/token.csv
+    line: '{{ token_kubelet_bootstrap }},kubelet-bootstrap,10001,"system:kubelet-bootstrap"'
+    create: yes
+    regexp: ^[\w]{32},kubelet-bootstrap,10001,"system:kubelet-bootstrap"$

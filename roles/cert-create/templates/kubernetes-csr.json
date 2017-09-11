@@ -1,0 +1,35 @@
+{
+  "CN": "kubernetes",
+  "hosts": [
+    "{{ api_domain }}",
+    "{{ api_private_ip }}",
+    "{{ api_public_ip }}",
+{% for host in groups['master'] %}
+{% set count1 = loop.index + 1 %}
+    "{{ hostvars[host]['ansible_' + master_interface].ipv4.address }}",
+{% endfor %}
+{% for host in groups['etcd'] %}
+{% set count1 = loop.index + 1 %}
+    "{{ hostvars[host]['ansible_' + etcd_interface].ipv4.address }}",
+{% endfor %}
+    "127.0.0.1",
+    "kubernetes",
+    "kubernetes.default",
+    "kubernetes.default.svc",
+    "kubernetes.default.svc.{{ cluster_name }}",
+    "e-unicred.com.br"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "BR",
+      "L": "POA",
+      "O": "Kubernetes",
+      "OU": "Cluster",
+      "ST": "RS"
+    }
+  ]
+}

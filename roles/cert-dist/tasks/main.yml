@@ -1,0 +1,29 @@
+---
+- name: ssl_dist | Create dir kubernetes
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /var/lib/kubernetes
+
+
+- name: dist-keys | Fetch keys
+  include: fetch.yml
+  when: deploy_certificates
+  tags:
+    - fetch_keys
+
+
+- name: dist-keys | Distribuite keys
+  include: dist.yml
+  when: deploy_certificates
+  tags:
+    - dist_keys
+
+
+- name: dist-keys | Reload Services
+  include: reload_services.yml 
+  when: deploy_certificates
+  tags:
+    - reload_services
+    

@@ -1,4 +1,7 @@
 ---
+## Unicred
+verify_unicred_init: False
+
 ## Proxy
 proxy_server: 192.168.0.20
 proxy_port: 8080
@@ -19,5 +22,4 @@ firewalld_disabled: True
 ## Interface
 master_interface: eth0
 etcd_interface: eth0
-node_interface: eth0
 

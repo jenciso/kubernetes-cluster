@@ -1,0 +1,22 @@
+{
+  "CN": "kube-node",
+  "hosts": [
+    "{{ ansible_fqdn }}",
+    "system:node:{{ ansible_fqdn }}",
+    "{{ ansible_default_ipv4.address }}",
+    "kubernetes.default.svc.{{ cluster_name }}"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "BR",
+      "L": "POA",
+      "O": "system:nodes",
+      "OU": "Cluster",
+      "ST": "RS"
+    }
+  ]
+}

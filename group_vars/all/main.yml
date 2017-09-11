@@ -5,11 +5,17 @@ kubernetes_version: 1.7.5
 api_public_ip: "{{ lb_ip_apik8s }}"
 api_private_ip: 10.254.0.1
 cluster_dns: 10.254.0.10
-api_domain: apik8s-{{ env_site }}.iplanet.work
-cluster_name: iplanet.local
+api_domain: apik8s-{{ env_site }}.e-unicred.com.br
+cluster_name: unicred.local
 cluster_cidr: 172.18.0.0/16
-k8s_config_dir: /opt/kubernetes-config
-ssl_dir: /opt/kubernetes-config/ssl
+kubernetes_setup_dir: /opt/kubernetes
+cert_expiry_time: 87600h
+
+## KUBERNETES_TOKENS
+# ------------------
+# To create new token. `head -c 16 /dev/urandom | od -An -t x`
+token_kubelet_bootstrap: ea0da8d7d09fa787cfeee32dcf1ed565
+
 
 ## DEPLOY
 #---------- 

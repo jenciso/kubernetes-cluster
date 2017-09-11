@@ -1,0 +1,41 @@
+---
+- name: kubeconfig | Download kubectl 
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-release/release/v{{ kubernetes_version }}/bin/linux/amd64/kubectl
+    dest: /usr/bin/kubectl
+    mode: 0755 
+  when: deploy_kubeconfig
+  tags:
+    - kubeconfig
+
+
+- name: kubeconfig | Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /var/lib/kubernetes
+    - /var/lib/kubelet
+    - /var/lib/kube-proxy
+  when: deploy_kubeconfig
+  tags:
+    - kubeconfig
+
+
+- name: kubeconfig | create kubeconfig bootstrap
+  include: kubeconfig__bootstrap.yml
+  when: deploy_kubeconfig
+  tags:
+    - kubeconfig
+
+
+- name: kubeconfig | create kubeconfig kube-proxy
+  include: kubeconfig__kube-proxy.yml
+  when: deploy_kubeconfig
+  tags:
+    - kubeconfig
+
+- name: kubeconfig | reload services
+  include: reload_services.yml
+  tags:
+    - kubeconfig

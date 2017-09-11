@@ -1,0 +1,51 @@
+---
+- name: cfssl | Create directory
+  file:
+    path: "{{ kubernetes_setup_dir }}"
+    state: directory
+  
+    
+- name: cfssl | copying profiles
+  template:
+    src: "{{ item }}"
+    dest: "{{ kubernetes_setup_dir }}"
+  with_items:
+    - ca-csr.json
+    - ca-config.json
+    - admin-csr.json
+    - kubernetes-csr.json
+
+
+
+- name: cfssl | create -> ca-key.pem, ca.pem 
+  shell: >
+    cfssl gencert 
+    -initca ca-csr.json | cfssljson -bare ca
+  args:
+    chdir: "{{ kubernetes_setup_dir }}"
+
+
+    
+- name: cfssl | create -> kubernetes-key.pem, kubernetes.pem
+  shell: >
+    cfssl gencert 
+    -ca=ca.pem
+    -ca-key=ca-key.pem 
+    -config=ca-config.json 
+    -profile=kubernetes 
+    kubernetes-csr.json | cfssljson -bare kubernetes
+  args:
+    chdir: "{{ kubernetes_setup_dir }}"
+
+
+
+- name: cfssl | create -> admin-key.pem, admin.pem
+  shell: >
+    cfssl gencert
+    -ca=ca.pem
+    -ca-key=ca-key.pem
+    -config=ca-config.json
+    -profile=kubernetes
+    admin-csr.json | cfssljson -bare admin
+  args:
+    chdir: "{{ kubernetes_setup_dir }}"

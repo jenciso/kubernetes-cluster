@@ -1,0 +1,19 @@
+---
+- name: cfssl | Install 
+  include: install_cfssl.yml
+  when: deploy_certificates
+  tags:
+    - cfssl-cert
+
+
+- name: cfssl | Make certs
+  include: create_cert.yml
+  when: deploy_certificates
+  tags:
+    - cfssl-cert
+ 
+
+- name: kubeconfig | reload services
+  include: reload_services.yml
+  tags:
+    - cfssl-cert

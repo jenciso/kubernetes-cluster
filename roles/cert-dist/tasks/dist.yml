@@ -1,0 +1,36 @@
+--- 
+- name: dist | etcd ssl cert
+  copy: 
+    src: /tmp/{{ item }}
+    dest: /var/lib/kubernetes/
+  with_items:
+    - ca.pem
+    - kubernetes.pem
+    - kubernetes-key.pem
+  when: "'etcd' in group_names"
+
+
+- name: dist | master ssl cert
+  copy:
+    src: /tmp/{{ item }}
+    dest: /var/lib/kubernetes/
+  with_items:
+    - ca.pem 
+    - ca-key.pem 
+    - kubernetes-key.pem 
+    - kubernetes.pem
+  when: "'master' in group_names"
+
+
+- name: dist | node ssl cert
+  copy:
+    src: /tmp/{{ item }}
+    dest: /var/lib/kubernetes/
+  with_items:
+    - ca.pem
+    - ca-key.pem
+    - ca-config.json
+    - kubernetes-key.pem
+    - kubernetes.pem
+  when: "'node' in group_names"
+

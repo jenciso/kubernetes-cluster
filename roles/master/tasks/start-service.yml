@@ -13,7 +13,7 @@
     enabled: yes
 
 
-- name: master | setup kube-scheduler.service
+- name: master | start kube-scheduler.service
   systemd:
     name: kube-scheduler.service
     state: started

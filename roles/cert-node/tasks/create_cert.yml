@@ -1,0 +1,34 @@
+---
+- name: cfssl | copying templates
+  template:
+    src: "{{ item }}"
+    dest: /var/lib/kubernetes
+  with_items:
+    - node-csr.json
+    - kube-proxy-csr.json
+
+
+
+- name: cfssl | create -> kube-proxy-key.pem, kube-proxy.pem
+  shell: >
+    cfssl gencert 
+    -ca=ca.pem 
+    -ca-key=ca-key.pem 
+    -config=ca-config.json 
+    -profile=kubernetes 
+    kube-proxy-csr.json | cfssljson -bare kube-proxy
+  args:
+    chdir: /var/lib/kubernetes
+
+
+
+- name: cfssl | create -> node-key.pem, node.pem
+  shell: >
+    cfssl gencert
+    -ca=ca.pem
+    -ca-key=ca-key.pem
+    -config=ca-config.json
+    -profile=kubernetes
+    node-csr.json | cfssljson -bare node
+  args:
+    chdir: /var/lib/kubernetes

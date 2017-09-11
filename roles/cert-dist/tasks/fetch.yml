@@ -1,0 +1,14 @@
+---
+- name: fetch_ssl_certs | fetching ssl files 
+  fetch:
+    src: "{{ kubernetes_setup_dir }}/{{ item }}"
+    dest: /tmp/
+    flat: yes
+  with_items:
+    - ca.pem 
+    - ca-key.pem
+    - ca-config.json
+    - kubernetes.pem
+    - kubernetes-key.pem 
+  when: "'main_host' in group_names"
+

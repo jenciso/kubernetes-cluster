@@ -1,0 +1,10 @@
+--- 
+- name: reload_services | node
+  systemd:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - kubelet
+    - kube-proxy
+  when: 
+    - not deploy_node

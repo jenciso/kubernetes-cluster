@@ -1,0 +1,21 @@
+---
+- name: reload_services | etcd
+  systemd:
+    name: etcd 
+    state: restarted
+  when: 
+    - "'etcd' in group_names"
+    - not deploy_etcd
+
+ 
+- name: reload_services | master
+  systemd:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - kube-apiserver
+    - kube-controller-manager
+    - kube-scheduler
+  when: 
+    - "'master' in group_names"
+    - not deploy_master

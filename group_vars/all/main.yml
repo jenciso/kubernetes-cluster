@@ -5,7 +5,7 @@ kubernetes_version: 1.7.5
 api_public_ip: "{{ lb_ip_apik8s }}"
 api_private_ip: 10.254.0.1
 cluster_dns: 10.254.0.10
-api_domain: apik8s-{{ env_site }}.e-unicred.com.br
+api_domain: apik8s-{{ env_site }}.iplanet.work
 cluster_name: unicred.local
 cluster_cidr: 172.18.0.0/16
 kubernetes_setup_dir: /opt/kubernetes

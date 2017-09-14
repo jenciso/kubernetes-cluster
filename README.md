@@ -29,8 +29,6 @@ This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhig
 
 First, create a domain for your apiserver. Replace it in `group_vars/all/main.yml` 
 
-> Note: For LVM support, you have to add a secondary disk `/dev/sdb` for docker storage
-
 ```
 api_domain: apik8s-lab.iplanet.work
 ```
@@ -49,6 +47,9 @@ sudo ansible-playbook site.yml -i inventory-lab \
 -e "deploy_docker=true" \
 -e "deploy_addons=true"
 ```
+
+> Note: For LVM support, you have to add a secondary disk `/dev/sdb` for docker storage
+
 ## Validate the installation
 
 ```sh

@@ -30,13 +30,13 @@ This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhig
 First, create a domain for your apiserver. Replace it in `group_vars/all/main.yml` 
 
 ```
-api_domain: apik8s-lab02.iplanet.work
+api_domain: apik8s-lab.iplanet.work
 ```
 
 Start the installation: 
 
 ```sh
-sudo ansible-playbook site.yml -i inventory-lab02 \
+sudo ansible-playbook site.yml -i inventory-lab \
 -e "deploy_certificates=true" \
 -e "deploy_kubeconfig=true" \
 -e "deploy_etcd=true" \
@@ -53,7 +53,7 @@ sudo ansible-playbook site.yml -i inventory-lab02 \
 * Re-create new certificates
 
 ```
-sudo ansible-playbook site.yml -i inventory-lab02 \
+sudo ansible-playbook site.yml -i inventory-lab \
 -e "deploy_certificates=true" \
 -e "deploy_kubeconfig=true" 
 ```
@@ -86,10 +86,10 @@ sz ca.pem
 Setup kubeconfig for your desktop
 
 ```
-kubectl config set-cluster k8s-lab02 \
+kubectl config set-cluster k8s-lab \
   --certificate-authority=ca.pem \
   --embed-certs=true \
-  --server=https://apik8s-lab02.iplanet.work
+  --server=https://apik8s-lab.iplanet.work
 ```
 
 ```sh
@@ -99,14 +99,14 @@ kubectl config set-credentials admin \
 ```
 
 ```
-kubectl config set-context k8s-lab02 \
-  --cluster=k8s-lab02 \
+kubectl config set-context k8s-lab \
+  --cluster=k8s-lab \
   --user=admin
 ```
 
 ```sh
-kubectl config set-context k8s-lab02 \
-  --cluster=k8s-lab02 \
+kubectl config set-context k8s-lab \
+  --cluster=k8s-lab \
   --user=admin
 ```
 
@@ -114,23 +114,23 @@ kubectl config set-context k8s-lab02 \
 
 MASTER
 ```
-sudo ansible -m shell -a "systemctl stop kube-apiserver kube-controller-manager kube-scheduler" -i inventory-lab02 master
+sudo ansible -m shell -a "systemctl stop kube-apiserver kube-controller-manager kube-scheduler" -i inventory-lab master
 ```
 ETCD
 ```` 
-sudo ansible -m shell -a "systemctl stop etcd" -i inventory-lab02 etcd
-sudo ansible -m shell -a 'rm -rf /var/lib/etcd/*' -i inventory-lab02 etcd 
+sudo ansible -m shell -a "systemctl stop etcd" -i inventory-lab etcd
+sudo ansible -m shell -a 'rm -rf /var/lib/etcd/*' -i inventory-lab etcd 
 ```
 NODE
 ```
-sudo ansible -m shell -a "systemctl stop kubelet kube-proxy docker" -i inventory-lab02 node
+sudo ansible -m shell -a "systemctl stop kubelet kube-proxy docker" -i inventory-lab node
 ```
 MASTER/NODE
 ```
-sudo ansible -m shell -a "rm -f /etc/sysconfig/network-scripts/route-eth0" -i inventory-lab02 master,node
-sudo ansible -m shell -a 'rm -rf /var/lib/kubernetes' -i inventory-lab02 master,node
-sudo ansible -m shell -a 'rm -rf /opt/kubernetes' -i inventory-lab02 master
-sudo ansible -m shell -a 'rm -rf /var/lib/kubelet /var/lib/kube-proxy' -i inventory-lab02 node
+sudo ansible -m shell -a "rm -f /etc/sysconfig/network-scripts/route-eth0" -i inventory-lab master,node
+sudo ansible -m shell -a 'rm -rf /var/lib/kubernetes' -i inventory-lab master,node
+sudo ansible -m shell -a 'rm -rf /opt/kubernetes' -i inventory-lab master
+sudo ansible -m shell -a 'rm -rf /var/lib/kubelet /var/lib/kube-proxy' -i inventory-lab node
 ```
 
 ## Validate the installation

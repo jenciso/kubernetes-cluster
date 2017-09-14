@@ -1,0 +1,54 @@
+---
+- name: calico | copying templates files
+  template:
+    src: "{{ item }}"
+    dest: /tmp/
+  with_items:
+    - calico.yaml
+    - rbac.yaml
+
+
+- name: calico | create __KUBE_ETCD_KEY__
+  shell: cat /var/lib/kubernetes/kubernetes-key.pem | base64 | tr -d '\n'
+  register: etcd_key
+
+
+- name: calico | create __KUBE_ETCD_CERT__
+  shell: cat /var/lib/kubernetes/kubernetes.pem | base64 | tr -d '\n'
+  register: etcd_cert
+
+
+- name: calico | create __KUBE_ETCD_CA__
+  shell: cat /var/lib/kubernetes/ca.pem | base64 | tr -d '\n'
+  register: etcd_ca
+
+
+
+- name: calico | modify __KUBE_ETCD_KEY__
+  lineinfile:
+    dest: /tmp/calico.yaml
+    regexp: '  etcd-key: "__KUBE_ETCD_KEY__"'
+    line:   '  etcd-key: "{{ etcd_key.stdout }}"'
+  
+
+- name: calico | modify __KUBE_ETCD_CERT__
+  lineinfile:
+    dest: /tmp/calico.yaml
+    regexp: '  etcd-cert: "__KUBE_ETCD_CERT__"'
+    line:   '  etcd-cert: "{{ etcd_cert.stdout }}"'
+
+
+- name: calico | modify __KUBE_ETCD_CA__
+  lineinfile:
+    dest: /tmp/calico.yaml
+    regexp: '  etcd-ca: "__KUBE_ETCD_CA__"'
+    line:   '  etcd-ca: "{{ etcd_ca.stdout }}"'
+
+
+- name: calico | apply rbac.yaml 
+  shell: kubectl apply -f /tmp/rbac.yaml
+
+- name: calico | apply calico.yaml
+  shell: kubectl apply -f /tmp/calico.yaml
+
+

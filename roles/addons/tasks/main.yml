@@ -4,3 +4,10 @@
   when: deploy_addons
   tags:
     - kube-dns
+
+
+- name: addons | busybox
+  include: busybox.yml
+  when: deploy_addons
+  tags:
+    - busybox

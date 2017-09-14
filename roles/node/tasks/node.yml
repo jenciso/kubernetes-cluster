@@ -1,7 +1,15 @@
 ---
+- name: node | install pre-req pacakges 
+  yum: 
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - conntrack-tools
+
+
 - name: node | install binaries
   get_url:
-    url: https://storage.googleapis.com/kubernetes-release/release/v{{ kubernetes_version }}/bin/linux/amd64/{{ item }}
+    url: "{{ kubernetes_install_url }}/{{ item }}"
     dest: /usr/bin/
     mode: 0755
   with_items:

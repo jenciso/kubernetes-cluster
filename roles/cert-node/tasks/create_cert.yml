@@ -1,4 +1,10 @@
 ---
+- name: cfssl | create dir
+  file:
+    path: /var/lib/kubernetes
+    state: directory
+
+
 - name: cfssl | copying templates
   template:
     src: "{{ item }}"
@@ -19,6 +25,8 @@
     kube-proxy-csr.json | cfssljson -bare kube-proxy
   args:
     chdir: /var/lib/kubernetes
+  notify:
+    - restart kube-proxy
 
 
 
@@ -32,3 +40,5 @@
     node-csr.json | cfssljson -bare node
   args:
     chdir: /var/lib/kubernetes
+  notify:
+    - restart kubelet

@@ -1,0 +1,41 @@
+---
+- name: node | check firewall rule
+  shell: "iptables -L -t nat | grep 'MASQUERADE' | grep '{{ cluster_cidr }}' | grep 'ADDRTYPE match dst-type !LOCAL'"
+  register: fw_rule
+  ignore_errors: true
+  changed_when: false
+  when: "'node' in group_names"
+
+
+- name: node | apply firewall rule
+  shell: "iptables -t nat -A POSTROUTING ! -d {{ cluster_cidr }} -m addrtype ! --dst-type LOCAL -j MASQUERADE"
+  when: 
+    - "'node' in group_names" 
+    - fw_rule|failed
+  
+
+- name: node | get routes
+  shell: >
+    kubectl get nodes 
+    --output=jsonpath='{range .items[*]}{.spec.podCIDR} via {.status.addresses[?(@.type=="InternalIP")].address}{"\n"}{end}'
+  register: routes
+  delegate_to: "{{ groups['master'][0] }}"
+  run_once: true
+  changed_when: false
+
+
+- name: node | create routes
+  lineinfile:
+    path: /etc/sysconfig/network-scripts/route-{{ ansible_default_ipv4.interface }}
+    line: "{{ item }}"
+    create: yes
+  with_items: "{{ routes.stdout_lines }}"
+  ignore_errors: true
+  register: route_config
+  when: "ansible_default_ipv4.address not in item"
+
+
+- name: node | reload route
+  shell: "systemctl restart network.service; sleep 3"
+  when: route_config|changed 
+ 

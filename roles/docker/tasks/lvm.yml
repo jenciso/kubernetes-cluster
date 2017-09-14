@@ -1,0 +1,14 @@
+---
+- name: docker | Configure Disk Part
+  parted:
+    device: "{{ docker_lvm_device }}"
+    number: 1
+    flags: [ lvm ]
+    state: present
+
+  
+- name: docker | Configure VG
+  lvg:
+    vg: "{{ docker_volume_group }}"
+    pvs: "{{ docker_lvm_device }}1"
+

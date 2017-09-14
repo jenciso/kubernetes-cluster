@@ -1,0 +1,6 @@
+---
+- name: reload systemd
+  command: systemctl --system daemon-reload
+
+- name: restart calico-node
+  systemd: name=calico-node state=restarted daemon_reload=yes

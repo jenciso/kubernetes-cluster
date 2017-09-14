@@ -4,11 +4,11 @@ master
 etcd
 node
 
-[lab:children]
+[lab01:children]
 KUBERNETES
 
 [KUBERNETES:vars]
-env_site=lab
+env_site=lab01
 lb_ip_apik8s=10.64.14.79
 lb_ip_platform=10.64.14.78
 lb_ip_services=10.64.14.77
@@ -16,6 +16,7 @@ lb_ip_services=10.64.14.77
 
 [main_host]
 dcbvm090dv821.iplanet.work
+
 
 [lb]
 dcbvm090dv801.iplanet.work keepalived_role=MASTER keepalived_unicast_peer="{{ hostvars[groups['lb'][1]]['ansible_default_ipv4']['address'] }}"

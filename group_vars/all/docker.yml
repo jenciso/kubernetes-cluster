@@ -1,0 +1,14 @@
+---
+deploy_docker: false
+docker_version: 1.13.1
+docker_no_proxy: "localhost, 127.0.0.1, nexus.iplanet.work"   #if you are behind a proxy_server
+docker_storage_lvm: true                  #set to false, if you won't use LVM as docker storage 
+docker_lvm_setup: true                    #set to false, if you have a VG configured for docker
+docker_lvm_device: /dev/sdb               #should be a disk for docker storage
+docker_volume_group: docker-vg            #volume group for docker storage
+insecure_registry:
+  - nexus.iplanet.work:18441
+  - nexus.iplanet.work:18442
+  - nexus.iplanet.work:18443
+add_registry:
+  - nexus.iplanet.work:18441

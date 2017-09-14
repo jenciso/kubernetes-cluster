@@ -1,8 +1,4 @@
 ---
-- name: node | docker
-  include: docker.yml
-
-
 - name: node | kubelet cni
   include: cni.yml
 

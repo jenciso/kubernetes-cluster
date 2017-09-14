@@ -1,0 +1,26 @@
+---
+- name: docker | create volume group 
+  include: lvm.yml
+  when: 
+    - docker_lvm_setup
+    - deploy_docker
+  tags:
+    - docker
+
+
+- name: docker | deploy
+  include: docker-setup.yml
+  when: 
+    - deploy_docker
+  tags:
+    - docker
+
+
+- name: docker | Enabled and Started Docker
+  systemd: 
+    name: docker 
+    state: started 
+    enabled: yes 
+    daemon_reload: yes
+  tags:
+    - docker

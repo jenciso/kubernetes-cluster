@@ -12,8 +12,3 @@
   tags:
     - cfssl-cert
  
-
-- name: kubeconfig | reload services
-  include: reload_services.yml
-  tags:
-    - cfssl-cert

@@ -1,0 +1,5 @@
+---
+network_plugin: kubenet   # default network plugin is kubenet. For use calico change to "cni"
+
+calicoctl_version: 1.5.0
+calicoctl_install_url: https://github.com/projectcalico/calicoctl/releases/download/v{{ calicoctl_version }}/calicoctl

@@ -24,6 +24,8 @@
 
 - name: kubeconfig | create kubeconfig bootstrap
   include: kubeconfig__bootstrap.yml
+  notify:
+    - restart kubelet
   when: deploy_kubeconfig
   tags:
     - kubeconfig
@@ -31,11 +33,8 @@
 
 - name: kubeconfig | create kubeconfig kube-proxy
   include: kubeconfig__kube-proxy.yml
+  notify:
+    - restart kube-proxy
   when: deploy_kubeconfig
-  tags:
-    - kubeconfig
-
-- name: kubeconfig | reload services
-  include: reload_services.yml
   tags:
     - kubeconfig

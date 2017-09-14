@@ -5,7 +5,6 @@
   environment: "{{ proxy_env }}"
   roles:
     - common
-    - { role: unicred-init, when: verify_unicred_init }
     - firewalld
     - ntp-client
   tags:
@@ -47,6 +46,7 @@
   remote_user: ansible
   environment: "{{ proxy_env }}"
   roles:
+    - docker
     - master
   tags:
     - k8s-master
@@ -70,6 +70,7 @@
   roles:
     - cert-node
     - kubeconfig
+    - docker
     - node
   tags:
     - k8s-node

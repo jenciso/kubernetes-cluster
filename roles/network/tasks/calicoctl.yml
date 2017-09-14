@@ -1,0 +1,19 @@
+---
+- name: calicoctl | install
+  get_url:
+    url: "{{ calicoctl_install_url }}"
+    dest: /usr/bin/
+    mode: 0755
+
+
+- name: calicoctl | create etc dir
+  file:
+    path: /etc/calico
+    state: directory
+
+
+- name: calicoctl | copying template
+  template:
+    src: calicoctl.cfg
+    dest: /etc/calico/calicoctl.cfg
+

@@ -1,0 +1,11 @@
+---
+- name: busybox | copy yaml
+  template:
+    src: busybox.yml
+    dest: /tmp/
+
+
+- name: busybox | deploy 
+  shell: kubectl create -f /tmp/busybox.yml
+  ignore_errors: true
+

@@ -1,3 +1,5 @@
 ---
-deploy_docker: false
-docker_version: 1.12.6
+kubernetes_version: 1.7.5
+kubernetes_install_url: https://storage.googleapis.com/kubernetes-release/release/v{{ kubernetes_version }}/bin/linux/amd64/
+cni_version: 0799f5732f2a11b329d9e3d51b9c8f2e3759f2ff
+cni_install_url: https://storage.googleapis.com/kubernetes-release/network-plugins/cni-amd64-{{ cni_version }}.tar.gz

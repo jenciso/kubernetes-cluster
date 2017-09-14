@@ -1,0 +1,15 @@
+---
+- name: calico | deploy in cluster kubernetes
+  include: calico-deploy.yml
+  delegate_to: "{{ groups['master'][0] }}"
+  run_once: true
+
+
+- name: calico | deploy in master nodes
+  include: calico-master.yml
+  when:
+    - "'master' in group_names"
+
+
+- name: calico | calicoctl
+  include: calicoctl.yml

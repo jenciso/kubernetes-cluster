@@ -1,0 +1,28 @@
+---
+- name: calico-master | create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /etc/calico
+    - /var/run/calico
+    - /var/log/calico
+  tags:
+    - calico
+
+
+- name: calico-master | copying template
+  template:
+    src: calico-node.service
+    dest: /usr/lib/systemd/system/calico-node.service
+  notify: restart calico-node
+  tags:
+    - calico
+
+
+- name: etcd | Start service
+  systemd: name=calico-node state=started enabled=yes
+  tags:
+    - calico
+
+

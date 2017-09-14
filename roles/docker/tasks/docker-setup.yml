@@ -1,0 +1,64 @@
+---
+- name: docker | install repo
+  yum_repository:
+    name: docker
+    description: Docker Repo for Centos 7 - stable
+    baseurl: https://yum.dockerproject.org/repo/main/centos/7/
+    gpgcheck: no
+    enabled: yes
+
+
+- name: docker | install via RPM
+  yum:
+    name: docker-engine-{{ docker_version }}
+    state: present
+
+
+- name: docker | Download docker-storage-setup project atomic
+  git: 
+    repo: https://github.com/projectatomic/docker-storage-setup.git 
+    dest: /opt/docker-storage-setup 
+    force: yes
+  when: deploy_docker
+
+
+- name: docker | Installing docker-storage-setup
+  shell: make; make install 
+  args:
+    chdir: /opt/docker-storage-setup
+    creates: /usr/bin/docker-storage-setup
+  when: deploy_docker
+
+
+
+- name: docker | Setup LVM name 
+  lineinfile: 
+    dest: /etc/sysconfig/docker-storage-setup
+    regexp: ^VG\=
+    line: VG={{ docker_volume_group }}
+  when: 
+    - docker_storage_lvm
+    - deploy_docker
+
+
+- name: docker | Running docker-storage-setup
+  shell: docker-storage-setup
+  when:
+    - docker_storage_lvm
+    - deploy_docker
+
+
+- name: docker | Setting /etc/sysconfig/docker
+  template: 
+    src: docker 
+    dest: /etc/sysconfig/docker
+  notify:
+    - restart docker
+
+
+- name: docker | Setting docker.service
+  template:
+    src: docker.service
+    dest: /usr/lib/systemd/system/docker.service
+  notify:
+    - restart docker

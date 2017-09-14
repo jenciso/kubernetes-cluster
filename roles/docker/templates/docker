@@ -1,0 +1,16 @@
+#############################################################
+##
+##
+## {{ ansible_managed }}
+##
+##
+#############################################################
+
+OPTIONS='--log-driver=json-file --log-opt max-size=50m --host=unix:///var/run/docker.sock --mtu=1472 --iptables=false --ip-masq=false'
+DOCKER_CERT_PATH=/etc/docker
+INSECURE_REGISTRY='{% for reg in insecure_registry %}--insecure-registry={{ reg }} {% endfor %}'
+{% if proxy_enabled %}
+HTTP_PROXY="{{ proxy_url }}"
+HTTPS_PROXY="{{ proxy_url }}"
+NO_PROXY="127.0.0.1, localhost"
+{% endif %}

@@ -2,3 +2,4 @@
 deploy_etcd: false
 etcd_version: 3.2.7
 etcd_interface: "{{ ansible_default_ipv4.interface }}"
+etcd_install_url: https://github.com/coreos/etcd/releases/download/v{{ etcd_version }}/etcd-v{{ etcd_version }}-linux-amd64.tar.gz

@@ -68,7 +68,6 @@ kubectl delete secrets --all -n kube-public
 * Setup Admin Kubectl
 
 Download kubectl. Ex v1.7.5
-
 ```sh
 wget https://storage.googleapis.com/kubernetes-release/release/v1.7.5/bin/linux/amd64/kubectl
 ```
@@ -85,7 +84,7 @@ sz ca.pem
 
 Setup kubeconfig for your desktop
 
-```
+```sh
 kubectl config set-cluster k8s-lab \
   --certificate-authority=ca.pem \
   --embed-certs=true \
@@ -98,7 +97,7 @@ kubectl config set-credentials admin \
   --client-key=admin-key.pem
 ```
 
-```
+```sh
 kubectl config set-context k8s-lab \
   --cluster=k8s-lab \
   --user=admin
@@ -113,20 +112,23 @@ kubectl config set-context k8s-lab \
 * Uninstall 
 
 MASTER
-```
+```sh
 sudo ansible -m shell -a "systemctl stop kube-apiserver kube-controller-manager kube-scheduler" -i inventory-lab master
 ```
+
 ETCD
-```` 
+```sh
 sudo ansible -m shell -a "systemctl stop etcd" -i inventory-lab etcd
 sudo ansible -m shell -a 'rm -rf /var/lib/etcd/*' -i inventory-lab etcd 
 ```
+
 NODE
-```
+```sh
 sudo ansible -m shell -a "systemctl stop kubelet kube-proxy docker" -i inventory-lab node
 ```
+
 MASTER/NODE
-```
+```sh
 sudo ansible -m shell -a "rm -f /etc/sysconfig/network-scripts/route-eth0" -i inventory-lab master,node
 sudo ansible -m shell -a 'rm -rf /var/lib/kubernetes' -i inventory-lab master,node
 sudo ansible -m shell -a 'rm -rf /opt/kubernetes' -i inventory-lab master
@@ -153,7 +155,6 @@ NAMESPACE     NAME                        READY     STATUS    RESTARTS   AGE    
 kube-system   kube-dns-2700442311-2cbbw   3/3       Running   0          3m        172.18.1.2   dcbvm090dv941.iplanet.work
 kube-system   kube-dns-2700442311-g9dmt   3/3       Running   0          3m        172.18.0.2   dcbvm090dv942.iplanet.work
 [root@dcbvm090dv921 ~]# 
-
 ```
 
 ## Live demo 

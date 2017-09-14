@@ -77,12 +77,13 @@ kube-system   kube-dns-2700442311-hxfhz                   3/3       Running   0 
 
 Download kubectl. Ex v1.7.5
 ```sh
-wget https://storage.googleapis.com/kubernetes-release/release/v1.7.5/bin/linux/amd64/kubectl
+sudo wget https://storage.googleapis.com/kubernetes-release/release/v1.7.5/bin/linux/amd64/kubectl -O /usr/bin/kubectl
 ```
 
 Download certificates created in rol "create-keys". it is located into `master[0]` or `main_host`
 
-Ex. copy using sz (if you don't have sz, try install it: yum -y install lrzsz) 
+Ex. copy using scp or sz (if you don't have sz, try install it: `yum -y install lrzsz`) 
+
 ```sh
 cd /opt/kubernetes
 sz admin-key.pem

@@ -20,7 +20,8 @@ This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhig
 - Etcd cluster separated of the kube-apiserver for best practices in HA. 
 - Kube-Api HA
 - Automatic node register using bootstrap option
-- Simple network configuration. Kubenet Support (default) 
+- Simple network configuration. Kubenet Support (default)
+- Docker Engine 1.13.1
 - RBAC Authentication
 - Add Calico Support
 - Add support for Docker Storage LVM (default) 
@@ -72,11 +73,11 @@ Download kubectl. Ex v1.7.5
 wget https://storage.googleapis.com/kubernetes-release/release/v1.7.5/bin/linux/amd64/kubectl
 ```
 
-Download certificates created in rol "create-keys". it is located into master[0]
+Download certificates created in rol "create-keys". it is located into `master[0]` or `main_host`
 
 Ex. copy using sz (if you don't have sz, try install it: yum -y install lrzsz) 
 ```sh
-cd /opt/kubernetes-config/ssl
+cd /opt/kubernetes
 sz admin-key.pem
 sz admin.pem
 sz ca.pem

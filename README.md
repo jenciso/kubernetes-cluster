@@ -20,15 +20,16 @@ This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhig
 - Etcd cluster separated of the kube-apiserver for best practices in HA. 
 - Kube-Api HA
 - Automatic node register using bootstrap option
-- Simple network configuration. Kubenet Support (default)
+- Simple network configuration, using Kubenet or Calico (default)
 - Docker Engine 1.13.1
 - RBAC Authentication
-- Add Calico Support
-- Add support for Docker Storage LVM (default) 
+- Docker Storage support Overlay or LVM (default)
 
 ## Installation
 
 First, create a domain for your apiserver. Replace it in `group_vars/all/main.yml` 
+
+> Note: For LVM support, you have to add a secondary disk `/dev/sdb` for docker storage
 
 ```
 api_domain: apik8s-lab.iplanet.work
@@ -139,23 +140,22 @@ sudo ansible -m shell -a 'rm -rf /var/lib/kubelet /var/lib/kube-proxy' -i invent
 ## Validate the installation
 
 ```sh
-[root@dcbvm090dv921 ~]# kubectl version
+[root@dcbvm090dv821 ~]# kubectl version
 Client Version: version.Info{Major:"1", Minor:"7", GitVersion:"v1.7.5", GitCommit:"17d7182a7ccbb167074be7a87f0a68bd00d58d97", GitTreeState:"clean", BuildDate:"2017-08-31T09:14:02Z", GoVersion:"go1.8.3", Compiler:"gc", Platform:"linux/amd64"}
 Server Version: version.Info{Major:"1", Minor:"7", GitVersion:"v1.7.5", GitCommit:"17d7182a7ccbb167074be7a87f0a68bd00d58d97", GitTreeState:"clean", BuildDate:"2017-08-31T08:56:23Z", GoVersion:"go1.8.3", Compiler:"gc", Platform:"linux/amd64"}
-[root@dcbvm090dv921 ~]# 
-[root@dcbvm090dv921 ~]# kubectl get nodes 
-NAME                             STATUS    AGE       VERSION
-dcbvm090dv941.iplanet.work   Ready     39s       v1.7.5
-dcbvm090dv942.iplanet.work   Ready     40s       v1.7.5
-[root@dcbvm090dv921 ~]# kubectl get nodes -o wide
+[root@dcbvm090dv821 ~]# kubectl get nodes -o wide
 NAME                             STATUS    AGE       VERSION   EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION
-dcbvm090dv941.iplanet.work   Ready     44s       v1.7.5    <none>        CentOS Linux 7 (Core)   3.10.0-327.36.3.el7.x86_64
-dcbvm090dv942.iplanet.work   Ready     45s       v1.7.5    <none>        CentOS Linux 7 (Core)   3.10.0-327.36.3.el7.x86_64
-[root@dcbvm090dv921 ~]# kubectl get pods --all-namespaces -o wide
-NAMESPACE     NAME                        READY     STATUS    RESTARTS   AGE       IP           NODE
-kube-system   kube-dns-2700442311-2cbbw   3/3       Running   0          3m        172.18.1.2   dcbvm090dv941.iplanet.work
-kube-system   kube-dns-2700442311-g9dmt   3/3       Running   0          3m        172.18.0.2   dcbvm090dv942.iplanet.work
-[root@dcbvm090dv921 ~]# 
+dcbvm090dv841.e-unicred.com.br   Ready     46m       v1.7.5    <none>        CentOS Linux 7 (Core)   3.10.0-327.36.3.el7.x86_64
+dcbvm090dv842.e-unicred.com.br   Ready     46m       v1.7.5    <none>        CentOS Linux 7 (Core)   3.10.0-327.36.3.el7.x86_64
+[root@dcbvm090dv821 ~]# kubectl get pods --all-namespaces -o wide
+NAMESPACE     NAME                                        READY     STATUS    RESTARTS   AGE       IP             NODE
+default       busybox                                     1/1       Running   0          45m       172.18.136.2   dcbvm090dv841.e-unicred.com.br
+kube-system   calico-node-5plhf                           2/2       Running   0          46m       10.64.14.86    dcbvm090dv842.e-unicred.com.br
+kube-system   calico-node-jplpn                           2/2       Running   0          46m       10.64.14.85    dcbvm090dv841.e-unicred.com.br
+kube-system   calico-policy-controller-1906845835-h5gzf   1/1       Running   0          46m       10.64.14.85    dcbvm090dv841.e-unicred.com.br
+kube-system   kube-dns-2700442311-62p1b                   3/3       Running   0          46m       172.18.136.1   dcbvm090dv841.e-unicred.com.br
+kube-system   kube-dns-2700442311-hxfhz                   3/3       Running   0          46m       172.18.136.3   dcbvm090dv841.e-unicred.com.br
+[root@dcbvm090dv821 ~]#
 ```
 
 ## Live demo 

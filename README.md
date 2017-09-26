@@ -85,7 +85,7 @@ sz ca.pem
 
 Setup kubeconfig for your desktop
 
-```
+```sh
 kubectl config set-cluster k8s-lab \
   --certificate-authority=ca.pem \
   --embed-certs=true \
@@ -112,20 +112,20 @@ kubectl config use-context k8s-lab
 * Uninstall 
 
 MASTER
-```
+```sh
 sudo ansible -m shell -a "systemctl stop kube-apiserver kube-controller-manager kube-scheduler" -i inventory-lab master
 ```
 ETCD
-```` 
+``` 
 sudo ansible -m shell -a "systemctl stop etcd" -i inventory-lab etcd
 sudo ansible -m shell -a 'rm -rf /var/lib/etcd/*' -i inventory-lab etcd 
 ```
 NODE
-```
+```sh
 sudo ansible -m shell -a "systemctl stop kubelet kube-proxy docker" -i inventory-lab node
 ```
 MASTER/NODE
-```
+```sh
 sudo ansible -m shell -a "rm -f /etc/sysconfig/network-scripts/route-eth0" -i inventory-lab master,node
 sudo ansible -m shell -a 'rm -rf /var/lib/kubernetes' -i inventory-lab master,node
 sudo ansible -m shell -a 'rm -rf /opt/kubernetes' -i inventory-lab master
@@ -136,17 +136,17 @@ sudo ansible -m shell -a 'rm -rf /var/lib/kubelet /var/lib/kube-proxy' -i invent
 
 ```sh
 [root@dcbvm090dv921 ~]# kubectl version
-Client Version: version.Info{Major:"1", Minor:"7", GitVersion:"v1.7.5", GitCommit:"17d7182a7ccbb167074be7a87f0a68bd00d58d97", GitTreeState:"clean", BuildDate:"2017-08-31T09:14:02Z", GoVersion:"go1.8.3", Compiler:"gc", Platform:"linux/amd64"}
-Server Version: version.Info{Major:"1", Minor:"7", GitVersion:"v1.7.5", GitCommit:"17d7182a7ccbb167074be7a87f0a68bd00d58d97", GitTreeState:"clean", BuildDate:"2017-08-31T08:56:23Z", GoVersion:"go1.8.3", Compiler:"gc", Platform:"linux/amd64"}
+Client Version: version.Info{Major:"1", Minor:"7", GitVersion:"v1.7.6", GitCommit:"17d7182a7ccbb167074be7a87f0a68bd00d58d97", GitTreeState:"clean", BuildDate:"2017-08-31T09:14:02Z", GoVersion:"go1.8.3", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"7", GitVersion:"v1.7.6", GitCommit:"17d7182a7ccbb167074be7a87f0a68bd00d58d97", GitTreeState:"clean", BuildDate:"2017-08-31T08:56:23Z", GoVersion:"go1.8.3", Compiler:"gc", Platform:"linux/amd64"}
 [root@dcbvm090dv921 ~]# 
 [root@dcbvm090dv921 ~]# kubectl get nodes 
 NAME                             STATUS    AGE       VERSION
-dcbvm090dv941.iplanet.work   Ready     39s       v1.7.5
-dcbvm090dv942.iplanet.work   Ready     40s       v1.7.5
+dcbvm090dv941.iplanet.work   Ready     39s       v1.7.6
+dcbvm090dv942.iplanet.work   Ready     40s       v1.7.6
 [root@dcbvm090dv921 ~]# kubectl get nodes -o wide
 NAME                             STATUS    AGE       VERSION   EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION
-dcbvm090dv941.iplanet.work   Ready     44s       v1.7.5    <none>        CentOS Linux 7 (Core)   3.10.0-327.36.3.el7.x86_64
-dcbvm090dv942.iplanet.work   Ready     45s       v1.7.5    <none>        CentOS Linux 7 (Core)   3.10.0-327.36.3.el7.x86_64
+dcbvm090dv941.iplanet.work   Ready     44s       v1.7.6    <none>        CentOS Linux 7 (Core)   3.10.0-327.36.3.el7.x86_64
+dcbvm090dv942.iplanet.work   Ready     45s       v1.7.6    <none>        CentOS Linux 7 (Core)   3.10.0-327.36.3.el7.x86_64
 [root@dcbvm090dv921 ~]# kubectl get pods --all-namespaces -o wide
 NAMESPACE     NAME                        READY     STATUS    RESTARTS   AGE       IP           NODE
 kube-system   kube-dns-2700442311-2cbbw   3/3       Running   0          3m        172.18.1.2   dcbvm090dv941.iplanet.work

@@ -20,10 +20,11 @@ This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhig
 - Etcd cluster separated of the kube-apiserver for best practices in HA. 
 - Kube-Api HA
 - Automatic node register using bootstrap option
-- Simple network configuration. Kubenet Support (default) 
+- Simple network configuration, using Kubenet or Calico (default)
 - RBAC Authentication
-- Add Calico Support
 - Add support for Docker Storage LVM (default) 
+- Docker Engine 1.13.1
+
 
 ## Installation
 

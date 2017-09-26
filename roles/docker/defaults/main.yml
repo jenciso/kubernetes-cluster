@@ -1,7 +1,6 @@
 ---
-docker_version: 1.12.6
+docker_version: 1.13.1
 insecure_registry: []
-add_registry: []
 docker_lvm_setup: false
 docker_lvm_device: /dev/sdb
 docker_volume_group: docker-vg

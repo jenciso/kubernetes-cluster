@@ -1,0 +1,20 @@
+---
+- name: ingress | copy yaml
+  template:
+    src: "{{ item }}"
+    dest: /tmp/
+  with_items:
+    - default-backend.yaml
+    - nginx-ingress-controller-rbac.yml
+    - nginx-ingress-controller.yaml
+
+
+- name: ingress | deploy 
+  shell: kubectl apply -f /tmp/{{ item }}
+  with_items:
+    - default-backend.yaml
+    - nginx-ingress-controller-rbac.yml
+    - nginx-ingress-controller.yaml
+  ignore_errors: true
+
+

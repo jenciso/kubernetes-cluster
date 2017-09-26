@@ -2,23 +2,23 @@
 ## KUBERNETES
 ## ----------
 
-kubernetes_version: 1.7.5
-cni_version: 0799f5732f2a11b329d9e3d51b9c8f2e3759f2ff
-
+kubernetes_version: 1.7.6
 api_public_ip: "{{ lb_ip_apik8s }}"
 api_private_ip: 10.254.0.1
 cluster_dns: 10.254.0.10
 api_domain: apik8s-{{ env_site }}.iplanet.work
-cluster_name: iplanet.local
+cluster_name: cluster.local
 cluster_cidr: 172.18.0.0/16
 kubernetes_setup_dir: /opt/kubernetes
-
 network_plugin: cni
+cni_version: 0799f5732f2a11b329d9e3d51b9c8f2e3759f2ff
 calicoctl_version: 1.5.0
 
 ## SSL
 cert_expiry_time: 87600h
 
+## DASHBOARD
+dashboard_domain: dashboard-{{ env_site }}.iplanet.work
 
 ## KUBERNETES_TOKENS (to create new token, execute `head -c 16 /dev/urandom | od -An -t x`)
 ## -----------------

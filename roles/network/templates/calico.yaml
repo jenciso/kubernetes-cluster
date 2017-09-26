@@ -96,6 +96,11 @@ spec:
     spec:
       hostNetwork: true
       serviceAccountName: calico-node
+      tolerations:
+        - key: node.alpha.kubernetes.io/role
+          operator: Equal
+          value: master
+          effect: NoSchedule
       containers:
         # Runs calico/node container on each Kubernetes node.  This
         # container programs network policy and routes on each

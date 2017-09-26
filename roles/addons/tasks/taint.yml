@@ -1,0 +1,5 @@
+---
+- name: taint | apply taint nodes master
+  shell: kubectl taint nodes -l node.alpha.kubernetes.io/role=master node.alpha.kubernetes.io/role=master:NoSchedule
+  ignore_errors: true
+

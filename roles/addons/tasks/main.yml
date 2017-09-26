@@ -1,4 +1,11 @@
 ---
+
+- name: addons | taint nodes
+  include: taint.yml
+  when: deploy_addons
+  tags:
+    - taint
+
 - name: addons | dns
   include: kube-dns.yml
   when: deploy_addons
@@ -11,3 +18,23 @@
   when: deploy_addons
   tags:
     - busybox
+
+
+- name: addons | heapster
+  include: heapster.yml
+  when: deploy_addons
+  tags:
+    - heapster
+
+
+- name: addons | ingress
+  include: ingress.yml
+  when: deploy_addons
+  tags:
+    - ingress
+
+- name: addons | dashboard
+  include: dashboard.yml
+  when: deploy_addons
+  tags:
+    - dashboard

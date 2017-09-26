@@ -1,0 +1,22 @@
+---
+- name: heapster | copy yaml
+  template:
+    src: "{{ item }}"
+    dest: /tmp/
+  with_items:
+    - heapster.yaml
+    - grafana.yaml
+    - influxdb.yaml
+    - heapster-rbac.yaml
+
+
+- name: heapster | deploy 
+  shell: kubectl create -f /tmp/{{ item }}
+  with_items:
+    - heapster.yaml
+    - grafana.yaml
+    - influxdb.yaml
+    - heapster-rbac.yaml
+  ignore_errors: true
+
+

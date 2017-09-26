@@ -5,6 +5,7 @@
     state: present
   with_items:
     - conntrack-tools
+    - socat
 
 
 - name: node | install binaries

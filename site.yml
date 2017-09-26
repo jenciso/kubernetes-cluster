@@ -46,7 +46,6 @@
   remote_user: ansible
   environment: "{{ proxy_env }}"
   roles:
-    - docker
     - master
   tags:
     - k8s-master
@@ -77,7 +76,7 @@
 
 
 - name: kubernetes | Network
-  hosts: [ master, node ]
+  hosts: node
   remote_user: ansible
   environment: "{{ proxy_env }}"
   roles:

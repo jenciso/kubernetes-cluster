@@ -5,10 +5,10 @@
   run_once: true
 
 
-- name: calico | deploy in master nodes
-  include: calico-master.yml
-  when:
-    - "'master' in group_names"
+#- name: calico | deploy in master nodes
+#  include: calico-master.yml
+#  when:
+#    - "'master' in group_names"
 
 
 - name: calico | calicoctl

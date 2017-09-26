@@ -26,7 +26,7 @@ This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhig
 - Docker Engine 1.13.1
 - Heapster/Grafana/Influxdb deploy
 - Kubernetes Dasboard UI deploy
-- Ingress Nginx deploy
+- Kube-DNS / Ingress Nginx deploy with node-affinity (master node)
 
 
 ## Installation

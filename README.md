@@ -24,6 +24,9 @@ This playbook is based in [Kubernetes the Hard Way](https://github.com/kelseyhig
 - RBAC Authentication
 - Add support for Docker Storage LVM (default) 
 - Docker Engine 1.13.1
+- Heapster/Grafana/Influxdb deploy
+- Kubernetes Dasboard UI deploy
+- Ingress Nginx deploy
 
 
 ## Installation

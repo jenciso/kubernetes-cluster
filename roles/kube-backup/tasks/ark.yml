@@ -1,0 +1,19 @@
+---
+- name: kube-backup | create directory
+  file: path=/opt/ark state=directory
+
+
+- name: kube-backup | download binary ark
+  get_url:
+    url: https://github.com/heptio/ark/releases/download/v{{ ark_version }}/ark-v{{ ark_version }}-linux-amd64.tar.gz
+    dest: "/opt/ark/ark-v{{ ark_version }}-linux-amd64.tar.gz"
+  register: ark_downloaded
+
+
+- name: kube-backup | extract ark bin
+  unarchive:
+    dest: /usr/bin/
+    src: /opt/ark/ark-v{{ ark_version }}-linux-amd64.tar.gz
+    remote_src: yes
+  when: ark_downloaded.changed
+ 

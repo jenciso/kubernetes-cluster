@@ -1,0 +1,6 @@
+---
+ark_version: 0.9.3
+deploy_ark: false
+backup_minio_host: localhost
+backup_minio_access_key: minio
+backup_minio_secret_key: minio123

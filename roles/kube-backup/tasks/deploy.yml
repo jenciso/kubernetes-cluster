@@ -1,0 +1,23 @@
+---
+- name: kube-backup | Copying templates
+  template: src={{ item }} dest=/opt/ark/
+  with_items:
+    - 00-prereqs.yaml
+    - 00-minio.yaml
+    - 10-ark-config.yaml
+    - 20-ark-deployment.yaml
+    - 30-restic-daemonset.yaml
+ 
+- name: kube-backup | Apply prereqs yaml
+  shell: kubectl apply -f /opt/ark/00-prereqs.yaml
+   
+- name: kube-backup | Apply minio yaml
+  shell: kubectl apply -f /opt/ark/00-minio.yaml
+
+  
+- name: kube-backup | Apply ark-setup yaml
+  shell: kubectl apply -f /opt/ark/{{ item }}
+  with_items:
+    - 10-ark-config.yaml
+    - 20-ark-deployment.yaml
+    - 30-restic-daemonset.yaml
